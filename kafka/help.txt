@@ -15,7 +15,7 @@ Note: Run below commands without ".sh" suffix.
 3) Describe topic "first_topic": kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic first_topic
 4) Alter topic "first_topic" to have 5 partitions: kafka-topics.sh --bootstrap-server localhost:9092 --alter --topic first_topic --partitions 5
 5) Delete topic "first_topic": kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic first_topic
-6) Delete all messages in topic "first_topic": 
+6) Delete all messages in topic "first_topic" - delete and recreate topic with same name and options
 
 Producer:
 6) Start producer for topic "first_topic" (enter sends message, Ctrl+C exits producer): kafka-console-producer.sh --bootstrap-server localhost:9092 --topic first_topic
