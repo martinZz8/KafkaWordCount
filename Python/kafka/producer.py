@@ -1,3 +1,4 @@
+# from: https://docs.confluent.io/kafka-clients/python/current/overview.html#initialization
 from confluent_kafka import Producer
 import socket
 

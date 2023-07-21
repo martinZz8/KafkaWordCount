@@ -1,3 +1,4 @@
+# from: https://docs.confluent.io/kafka-clients/python/current/overview.html#initialization
 import sys
 from confluent_kafka import Consumer, KafkaError, KafkaException
 
