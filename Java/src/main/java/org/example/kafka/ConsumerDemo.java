@@ -76,7 +76,7 @@ public class ConsumerDemo {
         List<ReceivedMessage> rm = new ArrayList<>();
 
         // poll for new data (eventually change duration time - e.g. to 5s)
-        ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(10));
+        ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(30));
 
         for (ConsumerRecord<String, String> record : records) {
             log.info("Received new message. \n" +

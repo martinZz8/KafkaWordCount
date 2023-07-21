@@ -14,19 +14,18 @@ public class Main {
     private static final String bootstrapServers = "127.0.0.1:9092";
     private static final String sendTopicName = "send_message";
     private static final String receiveTopicName = "receive_counters";
+    private static final String consumerGroupId = "receive-counters-1";
     private static final String messageToCount = "mama kot jodła kot";
 
     public static void main(String[] args) {
-        //log.info("Hello World");
-
         // Send messages
-        //ProducerDemo pd = new ProducerDemo(bootstrapServers, sendTopicName);
-        //pd.sendMessage(Optional.of("test2"), "test message2");
+        ProducerDemo pd = new ProducerDemo(bootstrapServers, sendTopicName);
+        pd.sendMessage(Optional.empty(), messageToCount); //key: Optional.of("test2")
         //pd.sendMessage(Optional.empty(), "test message3");
-        //pd.closeConnection();
+        pd.closeConnection();
 
         // Receive messages
-        ConsumerDemo cs = new ConsumerDemo(bootstrapServers, Arrays.asList(receiveTopicName), "receive-counters-1");
+        ConsumerDemo cs = new ConsumerDemo(bootstrapServers, Arrays.asList(receiveTopicName), consumerGroupId);
         cs.receiveMessages();
         //cs.receiveMessagesInfinite();
         cs.closeConnection();
