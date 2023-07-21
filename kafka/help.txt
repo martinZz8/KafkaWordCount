@@ -1,0 +1,42 @@
+DOCKER VERSION
+from: https://www.conduktor.io/kafka/how-to-start-kafka-using-docker/
+
+-- Basic commands --
+1) Start containers (zookeeper+kafka): docker-compose -f zk-single-kafka-single.yml up -d
+2) Show containerss: docker-compose -f zk-single-kafka-single.yml ps
+3) Enter kafka shell (type "exit" to exit the shell): docker exec -it kafka1 /bin/bash
+4) Stop containers (zookeeper+kafka): docker-compose -f zk-single-kafka-single.yml stop
+4) Stop and delete containers (zookeeper+kafka): docker-compose -f zk-single-kafka-single.yml down
+
+Note: Run below commands without ".sh" suffix.
+-- Kafka commands --
+1) List all topics: kafka-topics.sh --bootstrap-server localhost:9092 --list
+2) Create topic "first_topic": kafka-topics.sh --bootstrap-server localhost:9092 --topic first_topic --create --partitions 3 --replication-factor 1
+3) Describe topic "first_topic": kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic first_topic
+4) Alter topic "first_topic" to have 5 partitions: kafka-topics.sh --bootstrap-server localhost:9092 --alter --topic first_topic --partitions 5
+5) Delete topic "first_topic": kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic first_topic
+6) Delete all messages in topic "first_topic": 
+
+Producer:
+6) Start producer for topic "first_topic" (enter sends message, Ctrl+C exits producer): kafka-console-producer.sh --bootstrap-server localhost:9092 --topic first_topic
+7) Start producer for topic "first_topic" with message from file: kafka-console-producer.sh --bootstrap-server localhost:9092 --topic first_topic < topic-input.txt
+8) Start producer for topic "first_topic" with key/value pairs (kere key and value are separated with a colon ":"): kafka-console-producer.sh --bootstrap-server localhost:9092 --topic first_topic --property parse.key=true --property key.separator=:
+
+Consumer:
+9) Consuming only the future messages of a topic "first_topic" (exit with Ctrl+C): kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first_topic
+10) Consuming all historical messages and future ones in a topic "first_topic": kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first_topic --from-beginning
+11) Consuming all historical and future messages in a topic "first_topic" with key/value pairs message (+time): kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first_topic --formatter kafka.tools.DefaultMessageFormatter --property print.timestamp=true --property print.key=true --property print.value=true --from-beginning
+
+Note: use "--group" parameter to specify consumer's group. Consumers with same group can together utilize incoming messages (with division of data between them). Number of topic partitions defines max number of consumers in group.
+
+Consumer groups:
+12) List all consumers that belong to specific group: kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-first-application
+
+Note: Stop all consumers before issuing next commands
+13) Reset consumer group "my-first-application" to read all messages again from topic "first_topic" (for each partition!): kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group my-first-application --reset-offsets --to-earliest --execute --topic first_topic
+Note: There are specific "--reset-offsets" options:
+- "--to-earliest" - start reading specific topic from beginning,
+- "--shift-by NUM" - shift topics by NUM acutal topic number, (NUM is a given number value with minus - to go back or plus - to go further),
+- ""
+
+14) Delete consumer group "my-first-application": kafka-consumer-groups.sh --bootstrap-server localhost:9092 --delete --group my-first-application
